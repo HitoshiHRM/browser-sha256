@@ -14,7 +14,7 @@ const output= new ArrayBuffer(32);
 
 Then just call function to write value into output buffer.
 ```javascript
-sha(input, output);
+sha256(input, output);
 ```
 
 You can watch the value with helper function.
