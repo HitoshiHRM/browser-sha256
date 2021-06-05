@@ -12,7 +12,7 @@ const K = new Uint32Array([
 function sha256(inBuffer, outBuffer) {
   // Both input and output are ArrayBufer.
   // And output length must be 256bit = 32byte.
-  const rotR=(v, n)=>( (v>>>n) | (v<<(32-n)) );
+  const rotR = (v, n)=>( (v>>>n) | (v<<(32-n)) );
   const h = new Uint32Array([
     0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
     0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
@@ -121,20 +121,22 @@ function sha256(inBuffer, outBuffer) {
 
 // Helper Functions.
 function to32b(buf) {
-  const bits = new Array(32);
+  const block = new Array(32);
+  const hash  = new Uint32Array(buf);
   const result = [];
+  
   let i;
-  for(let fourbyte of new Uint32Array(buf)) {
+  hash.forEach( (fourbytes)=>{
     i = 0;
     while (i < 32) {
-      bits[i] = ( (fourbyte >>> (31 - i)) & 0x01)? '1':'0';
+      block[i] =
+       ( fourbytes>>>(31-i) & 0x01 ) ? '1':'0';
       i++;
     }
-    result.push(bits.join(''));
-  }
+    result.push( block.join('') );
+  });
   return result.join(' ');
 }
-
 function tohex(b, capital) {
   // buffer to hex.
   const view = new Uint8Array(b);
@@ -154,40 +156,13 @@ function tohex(b, capital) {
       13: 'd', 14: 'e', 15: 'f',
     }
   }
-  let result = [];
-  for (let uint of view) {
+  const result = [];
+  view.forEach((uint) => {
     result.push(HexTable[uint >>> 4]);
     result.push(HexTable[uint & 0x0f]);
     result.push('');
-  }
+  });
   return result.join('');
 }
 
-
-// Tests
-const ecd = new TextEncoder();
-const hash = new ArrayBuffer(32);
-
-// test with empty input.
-let input = ecd.encode("");
-sha256(input.buffer, hash);
-if (tohex(hash) !== "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") {
-  alert("test failed!");
-}
-
-console.log(to32b(hash));
-console.log(tohex(hash));
-
-// test with "abc" string
-input = ecd.encode("abc");
-sha256(input.buffer, hash);
-if (tohex(hash) !== "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad") {
-  alert("test failed!");
-}
-
-// test with "hello world" string
-input = ecd.encode("hello world");
-sha256(input.buffer, hash);
-if (tohex(hash, Capital=true) !== "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9") {
-  alert("test failed!");
-}
+module.exports = {sha256,to32b,tohex}

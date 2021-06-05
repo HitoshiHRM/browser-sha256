@@ -1,0 +1,15 @@
+{
+  "name": "browser-sha256",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hitoshi44/browser-sha256",
+  "author": "HitoshiHRM <hrmhts0404@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.0.4",
+    "parcel-bundler": "^1.12.5"
+  },
+  "scripts":{
+    "test":"jest"
+  }
+}
