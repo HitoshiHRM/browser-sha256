@@ -1,7 +1,7 @@
 {
   "name": "browser-sha256",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "hash.js",
   "repository": "https://github.com/hitoshi44/browser-sha256",
   "author": "HitoshiHRM <hrmhts0404@gmail.com>",
   "license": "MIT",
